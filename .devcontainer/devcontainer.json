@@ -1,0 +1,108 @@
+{
+    // VSCode Dev Container for React Project
+    // Claude v24
+    "image": "python:3.13.5-alpine",
+    "name": "accountspro-dev",
+    "features": {
+        // "ghcr.io/devcontainers/features/node:1": {},
+        // "ghcr.io/devcontainers/features/python:1": {},
+        // "ghcr.io/devcontainers/features/github-cli:1": {
+        //     "version": "latest",
+        //     "installGitHubCli": true,
+        //     "installGitHubCliConfig": true
+        // },
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": false,
+            "installOhMyZsh": false,
+            "upgradePackages": false,
+            "username": "appuser",
+            "uid": "1000",
+            "gid": "1000",
+            "installOhMyZshConfig": false
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Python & Django & Ruff
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "batisteo.vscode-django",
+                "charliermarsh.ruff",
+                // JavaScript/Frontend/React
+                // "ms-python.mypy-type-checker", // Uncomment if you want to use mypy
+                "esbenp.prettier-vscode",
+                // "bradlc.vscode-tailwindcss", // Uncomment if you want Tailwind CSS support
+                "formulahendry.auto-rename-tag",
+                "ms-vscode.vscode-react-native",
+                "dsznajder.es7-react-js-snippets",
+                // Git & Development
+                "ms-python.autopep8",
+                "eamodio.gitlens",
+                "ms-vscode-remote.remote-wsl-recommender",
+                "ms-vscode.vscode-json",
+                "christian-kohler.path-intellisense",
+                "gruntfuggly.todo-tree",
+                "mhutchie.git-graph",
+                "medo64.render-crlf",
+                // API & Database
+                "humao.rest-client",
+                "qwtel.sqlite-viewer",
+                "alexcvzz.vscode-sqlite",
+                // AI Agents
+                "GitHub.copilot-chat",
+                "Anthropic.claude-code",
+                "AndrePimenta.claude-code-chat",
+            ],
+            "settings": {
+                "python.linting.enabled": true,
+                "python.linting.ruffEnabled": true,
+                "mypy-type-checker.args": [
+                    "--ignore-missing-imports"
+                ],
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff",
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll.ruff": "always"
+                    }
+                }
+            }
+        }
+    },
+    "runArgs": [
+        "--publish",
+        "8000:8000",
+        "--publish",
+        "5173:5173",
+        "--publish",
+        "3000:3000"
+    ],
+    "forwardPorts": [
+        5173,
+        3000,
+        8000
+    ],
+    "portsAttributes": {
+        "5173": {
+            "label": "Vite React Server",
+            "onAutoForward": "notify",
+            "requireLocalPort": true,
+            "protocol": "http"
+        },
+        "3000": {
+            "label": "Vite Remote Debugging",
+            "onAutoForward": "notify",
+            "requireLocalPort": true,
+            "protocol": "http"
+        },
+        "8000": {
+            "label": "Django Server",
+            "onAutoForward": "notify",
+            "requireLocalPort": true,
+            "protocol": "http"
+        }
+    },
+    "remoteUser": "appuser",
+    "postCreateCommand": "sudo chmod +x scripts/* && sh scripts/setup.sh",
+    "postStartCommand": "sh scripts/stop-servers.sh && sh scripts/start-servers.sh"
+}
