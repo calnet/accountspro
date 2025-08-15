@@ -173,6 +173,7 @@ __marimo__/
 
 # Node.js
 node_modules/
+
 # Coverage reports
 coverage/
 *.lcov
